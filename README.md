@@ -1,9 +1,9 @@
 # INST326-Financial-Manager
 ## This file provides functionality for:
-⋅⋅* **Expense and income tracking**: Users can record, categorize, and view their expenses and incomes
-⋅⋅* **Financial goals setting**: Users can set and track progress towards financial goals
-⋅⋅* **Reports**: The program will generate text-based reports summarizing financial activity and goal progress
-⋅⋅* **Data Visualization**: Charts(Bar/Line/Pie) to easily represent income and expense classes, track progress towards saving goals, or offer a quick look at how income is allocated across  different expense categories
+- **Expense and income tracking**: Users can record, categorize, and view their expenses and incomes
+- **Financial goals setting**: Users can set and track progress towards financial goals
+- **Reports**: The program will generate text-based reports summarizing financial activity and goal progress
+- **Data Visualization**: Charts(Bar/Line/Pie) to easily represent income and expense classes, track progress towards saving goals, or offer a quick look at how income is allocated across  different expense categories
 
 ## Currently In Progress:
 ⋅⋅1. UI Implementation(Buttons, input boxes)
