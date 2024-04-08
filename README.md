@@ -12,8 +12,9 @@
 
 ## Classes contained in this file:
 **MoneyManagement():** Class to manage income and expenses. Upon initilization, the class creates a dictionary to store income and expenses. It operates on a key:value pair of month[numeric]:value, i.e 
-```python 
-self.income = {4:1000}```
+```python  
+self.income = {4:1000} 
+```
 	**Functions:**
 	⋅⋅1. `__init__(self)`
 	⋅⋅2. `change_income(self, value: str) -> None`
