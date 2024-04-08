@@ -7,60 +7,72 @@ from datetime import datetime
 
 """May separate classes into standalone files for readability"""
 
+class DataUnavailableError(Exception):
+    pass
+
 class MoneyManagement:
     """A class to manage income and expenses. Income and expenses work on a key:val pair of Month:value"""
 
+    """   Notes for changes   
+    populate expenses and income dictionary with a default 0 to remove need for exception class
+    Assuming input will be handled in tkinter as a string but will research """
     def __init__(self):
         self.income = {}
         self.expenses = {}
-    def change_income(self, value):
+
+    def change_income(self, value: str) -> None:
         """Change the monthly income for the current month.
 
         Args:
-            value (float): The new income value.
+            value (str): The new income value.
 
         """
+
         income = float(value)
         currMonth = datetime.now().month
-        #If there is a previous monthly[incase add/subtract better than overwrite]
-        """ if self.income[currMonth]:
-            monthlyIncome = self.income[currMonth]
-            adjustedIncome = monthlyIncome + income
-            self.income[currMonth] = adjustedIncome
-        else: """
         self.income[currMonth] = income
      
-    def adjust_expenses(self, value):
+    def adjust_expenses(self, value: str) -> None:
         """Adjust the monthly expenses for the current month.
 
         Args:
-            value (float): The new expenses value.
+            value (str): The new expenses value.
 
         """
+
         expenses = float(value)
         currMonth = datetime.now().month
 
         self.expenses[currMonth] = expenses
 
-    def get_monthly_expenses(self):
+    def get_monthly_expenses(self) -> float:
         """Get the monthly expenses for the current month.
 
         Returns:
             float: The monthly expenses.
 
         """
-        return self.expenses[datetime.now().month]
+        curr_month = datetime.now().month
+        if curr_month in self.expenses:
+            return self.expenses[curr_month]
+        else:
+            raise DataUnavailableError("Monthly expenses data is not available for this month")
 
-    def get_monthly_income(self):
+    def get_monthly_income(self) -> float:
         """Get the monthly income for the current month.
 
         Returns:
             float: The monthly income.
 
         """
-        return self.income[datetime.now().month]
+
+        curr_month = datetime.now().month
+        if curr_month in self.income:
+            return self.income[curr_month]
+        else:
+            raise DataUnavailableError("Monthly income data is not available for this month")
     
-    def get_yearly_income(self):
+    def get_yearly_income(self) -> float:
         """Get the total income for the current year.
 
         Returns:
@@ -72,7 +84,7 @@ class MoneyManagement:
             total_income += self.income[month]
         return total_income
     
-    def get_yearly_expenses(self):
+    def get_yearly_expenses(self) -> float:
         """Get the total expenses for the current year.
 
         Returns:
@@ -96,35 +108,38 @@ class Goals:
         self.yearly_expense_goal = 0
 
     
-    def update_monthly_income_goal(self, goal):
+    def update_monthly_income_goal(self, goal: str) -> None:
         """Update the monthly income goal for the current month.
 
         Args:
-            goal (float): The new monthly income goal.
+            goal (str): The new monthly income goal.
 
         """
+
         currMonth = datetime.now().month
         self.income_goal[currMonth] = float(goal)
 
-    def get_monthly_income_goal(self):
+    def get_monthly_income_goal(self) -> float:
         """Get the monthly income goal for the current month.
 
         Returns:
             float: The monthly income goal.
 
         """
+
         return self.income_goal[datetime.now().month]
     
-    def update_yearly_income_goal(self, goal):
+    def update_yearly_income_goal(self, goal: str) -> None:
         """Update the yearly income goal.
 
         Args:
-            goal (float): The new yearly income goal.
+            goal (str): The new yearly income goal.
 
         """
+
         self.yearly_income_goal = float(goal)
     
-    def get_yearly_income_goal(self):
+    def get_yearly_income_goal(self) -> float:
         """Get the yearly income goal.
 
         Returns:
@@ -133,17 +148,17 @@ class Goals:
         """
         return self.yearly_income_goal
     
-    def update_monthly_expense_goal(self, goal):
+    def update_monthly_expense_goal(self, goal: str) -> None:
         """Update the monthly expense goal for the current month.
 
         Args:
-            goal (float): The new monthly expense goal.
+            goal (str): The new monthly expense goal.
 
         """
         currMonth = datetime.now().month
         self.expense_goal[currMonth] = float(goal)
 
-    def get_monthly_expense_goal(self):
+    def get_monthly_expense_goal(self) -> float:
         """Get the monthly expense goal for the current month.
 
         Returns:
@@ -152,16 +167,16 @@ class Goals:
         """
         return self.income_goal[datetime.now().month]
     
-    def update_yearly_expense_goal(self, goal):
+    def update_yearly_expense_goal(self, goal: str) -> None:
         """Update the yearly expense goal.
 
         Args:
-            goal (float): The new yearly expense goal.
+            goal (str): The new yearly expense goal.
 
         """
         self.yearly_expense_goal = float(goal)
 
-    def get_yearly_expense_goal(self):
+    def get_yearly_expense_goal(self) -> float:
         """Get the yearly expense goal.
 
         Returns:
