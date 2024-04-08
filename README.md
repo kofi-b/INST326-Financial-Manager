@@ -68,18 +68,18 @@
 
 
 ## Sources/Documentation:
-	* [FreeCodeCamp datetime module](https://www.freecodecamp.org/news/python-get-current-time/#:~:text=How%20to%20Get%20the%20Current%20Time%20with%20the%20Time%20Module,the%20current%20date%20and%20time)
-	* [Programiz time module](https://www.programiz.com/python-programming/time)
-	* [^2]:[Tkinter Documentation](https://tkdocs.com/index.html)
-	* [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-	* [^1]:[Private Methods in Python](https://www.geeksforgeeks.org/private-methods-in-python/)
+- [FreeCodeCamp datetime module](https://www.freecodecamp.org/news/python-get-current-time/#:~:text=How%20to%20Get%20the%20Current%20Time%20with%20the%20Time%20Module,the%20current%20date%20and%20time)
+- [Programiz time module](https://www.programiz.com/python-programming/time)
+- [^2]:[Tkinter Documentation](https://tkdocs.com/index.html)
+- [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- [^1]:[Private Methods in Python](https://www.geeksforgeeks.org/private-methods-in-python/)
 
 
 
 ## Notes for changes:
-	* Populate expenses and income dictionary with a default 0 to remove need for an exception class
-    * Assuming input will be handled in tkinter as a string but will research taking in respective values as they should be inputted, auto parse into floats for needed functions to avoid doing it in each function
-	* May separate classes into standalone files for readability
-	* Separate Readme class documentation for readability
-	* Fix the update_yearly_income_goal to match monthly by using an additional type specifier
+- Populate expenses and income dictionary with a default 0 to remove need for an exception class
+- Assuming input will be handled in tkinter as a string but will research taking in respective values as they should be inputted, auto parse into floats for needed functions to avoid doing it in each function
+- May separate classes into standalone files for readability
+- Separate Readme class documentation for readability
+- Fix the update_yearly_income_goal to match monthly by using an additional type specifier
 
