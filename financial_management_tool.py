@@ -5,7 +5,6 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-"""May separate classes into standalone files for readability"""
 
 class DataUnavailableError(Exception):
     pass
@@ -13,12 +12,6 @@ class DataUnavailableError(Exception):
 class MoneyManagement:
     """A class to manage income and expenses. Income and expenses work on a key:val pair of Month:value"""
 
-    """   Notes for changes   
-    populate expenses and income dictionary with a default 0 to remove need for exception class
-    Assuming input will be handled in tkinter as a string but will research
-    Adjust tkinter to auto parse into floats for needed functions to avoid doing it in function
-    Missing text-based reports
-       """
     def __init__(self):
         self.income = {}
         self.expenses = {}
@@ -48,7 +41,7 @@ class MoneyManagement:
 
         self.expenses[currMonth] = expenses
 
-    def get_monthly_expenses(self) -> float:
+    def get_monthly_expenses(self, value: str) -> None:
         """Get the monthly expenses for the current month.
 
         Returns:
@@ -107,25 +100,25 @@ class Goals:
         self.expense_goal = {} # Add button to allow setting a reduction in expenses
         self.income_goal = {}
 
-        self.yearly_income_goal = 0 # Can be adjusted to handle multiple years
-        self.yearly_expense_goal = 0
+        self.yearly_income_goal = 0.0 # Can be adjusted to handle multiple years
+        self.yearly_expense_goal = 0.0
 
-        def _get_month_num(self, month_name: str) -> int:
-            """Private helper method, converts month name to its corresponding number.
+    def _get_month_num(self, month_name: str) -> int:
+        """Private helper method, converts month name to its corresponding number.
 
-            Args:
-                month_name (str): The name of the month.
+        Args:
+            month_name (str): The name of the month.
 
-            Returns:
-                int: The number representing the month.
+        Returns:
+            int: The number representing the month.
 
-            """
-            months = {
-                'January': 1, 'February': 2, 'March': 3, 'April': 4,
-                'May': 5, 'June': 6, 'July': 7, 'August': 8,
-                'September': 9, 'October': 10, 'November': 11, 'December': 12
-            }
-            return months.get(month_name.capitalize())
+        """
+        months = {
+            'January': 1, 'February': 2, 'March': 3, 'April': 4,
+            'May': 5, 'June': 6, 'July': 7, 'August': 8,
+            'September': 9, 'October': 10, 'November': 11, 'December': 12
+        }
+        return months.get(month_name.capitalize())
 
     def update_monthly_goal(self, goal: str, type: str, month: str = None) -> None:
         """Update the monthly income goal for the current month.
@@ -214,7 +207,7 @@ class Goals:
         """
         return self.yearly_expense_goal
 
-class gui_management:
+class Gui_management:
     def __init__(self):
         self.window = Tk()
         self.window.title("Financial Management Tool")
@@ -249,7 +242,7 @@ class gui_management:
 
 def main():
     """ Main program """
-    gui = gui_management()
+    gui = Gui_management()
     gui.content_frame()
     gui.plugin_creation()
     gui.start()
