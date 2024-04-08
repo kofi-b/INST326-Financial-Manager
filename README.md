@@ -10,8 +10,9 @@
 2. Text Based reporting
 3. Data Visualization 
 
+## Classes contained in this file
 <details>
-    <summary>Classes contained in this file</summary>
+    <summary>Money Management</summary>
     <p>
         <b>MoneyManagement():</b> Class to manage income and expenses. Upon initialization, the class creates a dictionary to store income and expenses. It operates on a key:value pair of month[numeric]:value, i.e:
         <pre><code class="language-python">
@@ -30,25 +31,39 @@
     </p>
 </details>
 
-**Goals():** This class manages financial goals. Upon initilization, the class creates two dictionaries, one to handle goals for reducing your monthly expenses, and another to handle your monthly income goal. It also creates two floats to handle yearly income and expense goals, operating on the same month:value grouping
-		**Functions:**
-		1. `__init__(self)`
-		2. `_get_month_num(self, month_name: str) -> int`[^1]
-		3. `update_monthly_goal(self, goal: str, type: str, month: str = None) -> None`
-		4. `get_monthly_goal(self, type: str) -> float`
-		5. `update_yearly_income_goal(self, goal: str) -> None`
-		6. `get_yearly_income_goal(self) -> float`
-		7. `get_monthly_expense_goal(self) -> float
-		8. `update_yearly_expense_goal(self, goal: str) -> None`
-		9. `get_yearly_expense_goal(self) -> float`
+<details>
+    <summary>Goals</summary>
+    <p>
+        <b>Goals():</b> This class manages financial goals. Upon initialization, the class creates two dictionaries, one to handle goals for reducing your monthly expenses, and another to handle your monthly income goal. It also creates two floats to handle yearly income and expense goals, operating on the same month:value grouping.
+        <b>Functions:</b>
+        <ol type="1">
+            <li> <code class="language-python">__init__(self)</code></li>
+            <li> <code class="language-python">_get_month_num(self, month_name: str) -> int</code></li>
+            <li> <code class="language-python">update_monthly_goal(self, goal: str, type: str, month: str = None) -> None</code></li>
+            <li> <code class="language-python">get_monthly_goal(self, type: str) -> float</code></li>
+            <li> <code class="language-python">update_yearly_income_goal(self, goal: str) -> None</code></li>
+            <li> <code class="language-python">get_yearly_income_goal(self) -> float</code></li>
+            <li> <code class="language-python">get_monthly_expense_goal(self) -> float</code></li>
+            <li> <code class="language-python">update_yearly_expense_goal(self, goal: str) -> None</code></li>
+            <li> <code class="language-python">get_yearly_expense_goal(self) -> float</code></li>
+        </ol>
+    </p>
+</details>
 
-**Gui_management():** This class acts as a container for GUI related functions through tkinter[^2]. It will define a content frame and in time different tabs to access the project deliverables(data visualization, switching between income and expense, setting goals, etc). Upon initilization it will define a window and a title for tkinter to operate on, along with initilizing a Goals() and MoneyManagement() instance. Currently a WIP.
-	**Functions:**
-	1. `__init__(self)`
-	2. `content_frame(self) -> None`
-	3. `plugin_creation(self) -> None`
-	4. `update_income(self, income_value) -> None`
-	5. `start(self) -> None`
+<details>
+    <summary>Gui Management</summary>
+    <p>
+        <b>Gui_management():</b> This class acts as a container for GUI related functions through tkinter[^2]. It will define a content frame and in time different tabs to access the project deliverables(data visualization, switching between income and expense, setting goals, etc). Upon initialization, it will define a window and a title for tkinter to operate on, along with initializing a Goals() and MoneyManagement() instance. Currently a WIP.
+        <b>Functions:</b>
+        <ol type="1">
+            <li> <code class="language-python">__init__(self)</code></li>
+            <li> <code class="language-python">content_frame(self) -> None</code></li>
+            <li> <code class="language-python">plugin_creation(self) -> None</code></li>
+            <li> <code class="language-python">update_income(self, income_value) -> None</code></li>
+            <li> <code class="language-python">start(self) -> None</code></li>
+        </ol>
+    </p>
+</details>
 
 
 
