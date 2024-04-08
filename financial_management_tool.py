@@ -15,7 +15,10 @@ class MoneyManagement:
 
     """   Notes for changes   
     populate expenses and income dictionary with a default 0 to remove need for exception class
-    Assuming input will be handled in tkinter as a string but will research """
+    Assuming input will be handled in tkinter as a string but will research
+    Adjust tkinter to auto parse into floats for needed functions to avoid doing it in function
+     
+       """
     def __init__(self):
         self.income = {}
         self.expenses = {}
@@ -107,36 +110,71 @@ class Goals:
         self.yearly_income_goal = 0 # Can be adjusted to handle multiple years
         self.yearly_expense_goal = 0
 
-    
-    def update_monthly_income_goal(self, goal: str) -> None:
+        def _get_month_num(self, month_name: str) -> int:
+            """Private helper method, converts month name to its corresponding number.
+
+            Args:
+                month_name (str): The name of the month.
+
+            Returns:
+                int: The number representing the month.
+
+            """
+            months = {
+                'January': 1, 'February': 2, 'March': 3, 'April': 4,
+                'May': 5, 'June': 6, 'July': 7, 'August': 8,
+                'September': 9, 'October': 10, 'November': 11, 'December': 12
+            }
+            return months.get(month_name.capitalize())
+
+    def update_monthly_goal(self, goal: str, type: str, month: str = None) -> None:
         """Update the monthly income goal for the current month.
 
         Args:
             goal (str): The new monthly income goal.
+            type (str): Specifies whether income[i] or expense[e]
+            month (str, optional): Specifies the month to update the goal for (e.g., 'January', 'February', etc.).
+                If not provided, the current month is used.
 
         """
 
         currMonth = datetime.now().month
-        self.income_goal[currMonth] = float(goal)
+        if month:
+            month_num = self._get_month_number(month)
+            if month_num is None:
+                raise DataUnavailableError("Invalid month name")
+        else:
+            month_num = currMonth
+        if type == "i":
+            self.income_goal[month_num] = float(goal)
+        else:
+            self.expense_goal[month_num] = float(goal)
+    
 
-    def get_monthly_income_goal(self) -> float:
+    def get_monthly_goal(self, type: str) -> float:
         """Get the monthly income goal for the current month.
+        Args:
+            type (str): Specifies whether income[i] or expense[e]
 
         Returns:
             float: The monthly income goal.
 
         """
 
-        return self.income_goal[datetime.now().month]
+        currMonth = datetime.now().month
+        if type.lower() == "i":
+            return self.income_goal[currMonth]
+        else:
+            return self.expense_goal[currMonth]
     
     def update_yearly_income_goal(self, goal: str) -> None:
         """Update the yearly income goal.
 
         Args:
             goal (str): The new yearly income goal.
+            type (str): Specifies whether income[i] or expense[e]
 
         """
-
         self.yearly_income_goal = float(goal)
     
     def get_yearly_income_goal(self) -> float:
@@ -148,15 +186,6 @@ class Goals:
         """
         return self.yearly_income_goal
     
-    def update_monthly_expense_goal(self, goal: str) -> None:
-        """Update the monthly expense goal for the current month.
-
-        Args:
-            goal (str): The new monthly expense goal.
-
-        """
-        currMonth = datetime.now().month
-        self.expense_goal[currMonth] = float(goal)
 
     def get_monthly_expense_goal(self) -> float:
         """Get the monthly expense goal for the current month.
