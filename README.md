@@ -11,12 +11,12 @@
 3. Data Visualization 
 
 <details>
-		<summary>Classes contained in this file</summary>
-<p><b>>MoneyManagement():</b> Class to manage income and expenses. Upon initilization, the class creates a dictionary to store income and expenses. It operates on a key:value pair of month[numeric]:value, i.e 
-```python
+	<summary>Classes contained in this file</summary>
+	<p><b>>MoneyManagement():</b> Class to manage income and expenses. Upon initilization, the class creates a dictionary to store income and expenses. It operates on a key:value pair of month[numeric]:value, i.e 
+<pre><code class="language-python">  
 self.income = {4:1000} 
-```
-	<b>Functions:</b>
+</code></pre>
+<b>Functions:</b>
 	<ol type="1">
 	<li> <code class="language-python">__init__(self)</code></li>
 	<li> <code class="language-python">change_income(self, value: str) -> None<code></li>
