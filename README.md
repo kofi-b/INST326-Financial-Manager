@@ -16,7 +16,7 @@
     <p>
         <b>MoneyManagement():</b> Class to manage income and expenses. Upon initialization, the class creates a dictionary to store income and expenses. It operates on a key:value pair of month[numeric]:value, i.e:
         <pre><code class="language-python">
-            self.income = {4:1000} 
+        self.income = {4:1000} 
         </code></pre>
     <b>Functions:</b>
         <ol type="1">
