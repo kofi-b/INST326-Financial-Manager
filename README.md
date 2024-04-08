@@ -10,20 +10,21 @@
 2. Text Based reporting
 3. Data Visualization 
 
-Markup: <details>
+<details>
 		<summary>Classes contained in this file</summary>
-<p>**MoneyManagement():** Class to manage income and expenses. Upon initilization, the class creates a dictionary to store income and expenses. It operates on a key:value pair of month[numeric]:value, i.e 
-```python  
+<p><b>>MoneyManagement():</b> Class to manage income and expenses. Upon initilization, the class creates a dictionary to store income and expenses. It operates on a key:value pair of month[numeric]:value, i.e 
+<pre><code class="language-python">  
 self.income = {4:1000} 
-```
-	**Functions:**
-	1. `__init__(self)`
-	2. `change_income(self, value: str) -> None`
-	3. `adjust_expenses(self, value: str) -> None`
-	4. `get_monthly_expenses(self, value: str) -> None`
-	5. `get_monthly_income(self) -> float`
-	6. `get_yearly_income(self) -> float`
-	7. `get_yearly_expenses(self) -> float`</p>
+</code></pre>
+	<b>Functions:</b>
+	<ol type="1">
+	<li> <code class="language-python">__init__(self)</code></li>
+	<li> <code class="language-python">change_income(self, value: str) -> None<code></li>
+	<li> <code class="language-python">adjust_expenses(self, value: str) -> None</code></li>
+	<li> <code class="language-python">get_monthly_expenses(self, value: str) -> None</code></li>
+	<li> <code class="language-python">get_monthly_income(self) -> float</code></li>
+	<li> <code class="language-python">get_yearly_income(self) -> float</code></li>
+	<li> <code class="language-python">get_yearly_expenses(self) -> float</code></li></p>
 
 **Goals():** This class manages financial goals. Upon initilization, the class creates two dictionaries, one to handle goals for reducing your monthly expenses, and another to handle your monthly income goal. It also creates two floats to handle yearly income and expense goals, operating on the same month:value grouping
 		**Functions:**
