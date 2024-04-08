@@ -17,7 +17,7 @@ class MoneyManagement:
     populate expenses and income dictionary with a default 0 to remove need for exception class
     Assuming input will be handled in tkinter as a string but will research
     Adjust tkinter to auto parse into floats for needed functions to avoid doing it in function
-     
+    Missing text-based reports
        """
     def __init__(self):
         self.income = {}
@@ -214,25 +214,47 @@ class Goals:
         """
         return self.yearly_expense_goal
 
+class gui_management:
+    def __init__(self):
+        self.window = Tk()
+        self.window.title("Financial Management Tool")
 
-window = Tk()
-window.title("Finance Manager")
+        self.money_management = MoneyManagement()
+        self.goals = Goals()
 
-income = {}
-expenses = {}
-goals = {}
+    def content_frame(self):
+        self.mainframe = ttk.Frame(self.window, padding="3 3 12 12")
+        self.mainframe.grid(column=0, row=0, sticky=(N,W,E,S))
 
-fig = Figure(figsize=(6, 4))
-ax = fig.add_subplot(111)
-canvas = FigureCanvasTkAgg(fig, master=window)
-canvas.get_tk_widget().pack()
+        self.window.columnconfigure(0, weight=1)
+        self.window.rowconfigure(0, weight=1)
 
-def add_income():
-    amount = float(income_entry.get())
-    income["Salary"] = amount
-    update_income_display()
+    def plugin_creation(self):
+        self.income_var = StringVar()
 
-def update_income_display():
-    return
+        income_label = Label(self.window, text="Income:")
+        income_label.pack()
 
-window.mainloop()
+        income_entry = ttk.Entry(self.window, widget=7, textvariable=self.income_var)
+        income_entry.pack()
+
+        income_button = Button(self.window, text="Update Income", command=lambda: self.update_income(self.income_var.get()))
+        income_button.pack()
+    
+    def update_income(self, income_value):
+        self.money_management.change_income(income_value)
+
+    def start(self):
+        self.window.mainloop()
+
+def main():
+    """ Main program """
+    gui = gui_management()
+    gui.content_frame()
+    gui.plugin_creation()
+    gui.start()
+
+    return 0
+
+if __name__ == "__main__":
+    main()
