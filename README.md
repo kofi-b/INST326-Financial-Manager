@@ -6,9 +6,9 @@
 - **Data Visualization**: Charts(Bar/Line/Pie) to easily represent income and expense classes, track progress towards saving goals, or offer a quick look at how income is allocated across  different expense categories
 
 ## Currently In Progress:
-1. UI Implementation(Buttons, input boxes)
-2. Text Based reporting
-3. Data Visualization 
+- [ ] UI Implementation(Buttons, input boxes)
+- [ ] Text Based reporting
+- [ ] Data Visualization 
 
 ## Classes contained in this file
 <details>
@@ -53,7 +53,7 @@
 <details>
     <summary>Gui Management</summary>
     <p>
-        <b>Gui_management():</b> This class acts as a container for GUI related functions through tkinter[^2]. It will define a content frame and in time different tabs to access the project deliverables(data visualization, switching between income and expense, setting goals, etc). Upon initialization, it will define a window and a title for tkinter to operate on, along with initializing a Goals() and MoneyManagement() instance. Currently a WIP.
+        <b>Gui_management():</b> This class acts as a container for GUI related functions through tkinter. It will define a content frame and in time different tabs to access the project deliverables(data visualization, switching between income and expense, setting goals, etc). Upon initialization, it will define a window and a title for tkinter to operate on, along with initializing a Goals() and MoneyManagement() instance. Currently a WIP.
         <b>Functions:</b>
         <ol type="1">
             <li> <code class="language-python">__init__(self)</code></li>
@@ -70,9 +70,9 @@
 ## Sources/Documentation:
 - [FreeCodeCamp datetime module](https://www.freecodecamp.org/news/python-get-current-time/#:~:text=How%20to%20Get%20the%20Current%20Time%20with%20the%20Time%20Module,the%20current%20date%20and%20time)
 - [Programiz time module](https://www.programiz.com/python-programming/time)
-- [^2]:[Tkinter Documentation](https://tkdocs.com/index.html)
+- [Tkinter Documentation](https://tkdocs.com/index.html)
 - [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
-- [^1]:[Private Methods in Python](https://www.geeksforgeeks.org/private-methods-in-python/)
+- [Private Methods in Python](https://www.geeksforgeeks.org/private-methods-in-python/)
 
 
 
