@@ -237,6 +237,9 @@ class GUI_management:
     def update_income(self, income_value):
         self.money_management.change_income(income_value)
 
+    def update_expense(self):
+        expense_value = self.expense_var.get()
+
     def start(self):
         self.window.mainloop()
 
