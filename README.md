@@ -52,9 +52,9 @@
 </details>
 
 <details>
-    <summary>Gui Management</summary>
+    <summary>GUI Management</summary>
     <p>
-        <b>Gui_management():</b> This class acts as a container for GUI related functions through tkinter. It will define a content frame and in time different tabs to access the project deliverables(data visualization, switching between income and expense, setting goals, etc). Upon initialization, it will define a window and a title for tkinter to operate on, along with initializing a Goals() and MoneyManagement() instance. Currently a WIP.
+        <b>GUI_management():</b> This class acts as a container for GUI related functions through tkinter. It will define a content frame and in time different tabs to access the project deliverables(data visualization, switching between income and expense, setting goals, etc). Upon initialization, it will define a window and a title for tkinter to operate on, along with initializing a Goals() and MoneyManagement() instance. Currently a WIP.
 		<br>
         <b>Functions:</b>
         <ol type="1">

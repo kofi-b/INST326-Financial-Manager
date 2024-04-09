@@ -207,7 +207,7 @@ class Goals:
         """
         return self.yearly_expense_goal
 
-class Gui_management:
+class GUI_management:
     def __init__(self):
         self.window = Tk()
         self.window.title("Financial Management Tool")
@@ -242,7 +242,7 @@ class Gui_management:
 
 def main():
     """ Main program """
-    gui = Gui_management()
+    gui = GUI_management()
     gui.content_frame()
     gui.plugin_creation()
     gui.start()
