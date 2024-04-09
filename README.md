@@ -14,7 +14,9 @@
 <details>
     <summary>Money Management</summary>
     <p>
-        <b>MoneyManagement():</b> Class to manage income and expenses. Upon initialization, the class creates a dictionary to store income and expenses. It operates on a key:value pair of month[numeric]:value, i.e:<code class="language-python">self.income = {4:1000}</code>
+        <b>MoneyManagement():</b> Class to manage income and expenses. Upon initialization, the class creates a dictionary to store income and expenses. It operates on a key:value pair of month[numeric]:value, i.e:
+		<br>
+		<code class="language-python">self.income = {4:1000}</code>
 	<br>
     <b>Functions:</b>
         <ol type="1">
@@ -33,6 +35,7 @@
     <summary>Goals</summary>
     <p>
         <b>Goals():</b> This class manages financial goals. Upon initialization, the class creates two dictionaries, one to handle goals for reducing your monthly expenses, and another to handle your monthly income goal. It also creates two floats to handle yearly income and expense goals, operating on the same month:value grouping.
+		<br>
         <b>Functions:</b>
         <ol type="1">
             <li> <code class="language-python">__init__(self)</code></li>
@@ -52,6 +55,7 @@
     <summary>Gui Management</summary>
     <p>
         <b>Gui_management():</b> This class acts as a container for GUI related functions through tkinter. It will define a content frame and in time different tabs to access the project deliverables(data visualization, switching between income and expense, setting goals, etc). Upon initialization, it will define a window and a title for tkinter to operate on, along with initializing a Goals() and MoneyManagement() instance. Currently a WIP.
+		<br>
         <b>Functions:</b>
         <ol type="1">
             <li> <code class="language-python">__init__(self)</code></li>
