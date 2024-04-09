@@ -240,6 +240,14 @@ class GUI_management:
     def update_expense(self):
         expense_value = self.expense_var.get()
 
+    def expense_widgets(self):
+        #code to add expense widget for gui
+        pass 
+
+    def goal_widgets(self):
+        #code to add goal widget for gui
+        pass 
+
     def start(self):
         self.window.mainloop()
 
