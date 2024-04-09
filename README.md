@@ -74,6 +74,8 @@
 - [Programiz time module](https://www.programiz.com/python-programming/time)
 - [Tkinter Documentation](https://tkdocs.com/index.html)
 - [Markdown Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet)
+- [2nd Markdown Cheatsheet](https://github.com/tchapi/markdown-cheatsheet/blob/master/README.md)
+- [Basic formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#links)
 - [Private Methods in Python](https://www.geeksforgeeks.org/private-methods-in-python/)
 
 
