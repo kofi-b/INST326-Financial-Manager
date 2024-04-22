@@ -213,12 +213,12 @@ class Goals:
         return self.yearly_expense_goal
 
 class GUI_management:
-    def __init__(self):
+    def __init__(self, money_management, goals):
         self.window = Tk()
         self.window.title("Financial Management Tool")
 
-        self.money_management = MoneyManagement()
-        self.goals = Goals()
+        self.money_management = money_management
+        self.goals = goals
 
     def content_frame(self):
         self.mainframe = ttk.Frame(self.window, padding="3 3 12 12")
