@@ -25,7 +25,7 @@ class DataPersistence:
     
     def update_database(self, income=None, expenses=None, 
                         income_goal=None, expense_goal=None, 
-                        yearly_income_goal=None, yearly_expense_goal=None):
+                        yearly_income_goal=None, yearly_expense_goal=None) -> None:
         """
         Updates the shelve file with income, expense, and goal data.
 
