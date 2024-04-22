@@ -5,10 +5,78 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt 
 
+import shelve
+
 class DataUnavailableError(Exception):
     def __init__(self, message="Data is unavailable"):
         self.message = message
         super().__init__(self.message)
+
+class DataPersistence:
+    _filename = 'financial_management_data.db'
+
+    def __init__(self):
+        try:        
+            with shelve.open(self._filename, 'c') as db:
+                db.setdefault('data', {})
+            print(f"File '{self._filename}' opened")
+        except shelve.ShelfError as e:
+            print(f"Error opening: {e}")
+    
+    def update_database(self, income=None, expenses=None, 
+                        income_goal=None, expense_goal=None, 
+                        yearly_income_goal=None, yearly_expense_goal=None):
+        """
+        Updates the shelve file with income, expense, and goal data.
+
+        Args:
+            income (float, optional): The user's monthly income.
+            expenses (float, optional): The user's monthly expenses.
+            income_goal (float, optional): The user's monthly income goal.
+            expense_goal (float, optional): The user's monthly expense goal.
+            yearly_income_goal (float, optional): The user's yearly income goal.
+            yearly_expense_goal (float, optional): The user's yearly expense goal.
+        """
+
+        data = {}
+        if income is not None:
+            data['income'] = income
+        if expenses is not None:
+            data['expenses'] = expenses
+        if income_goal is not None:
+            data['income_goal'] = income_goal
+        if expense_goal is not None:
+            data['expense_goal'] = expense_goal
+        if yearly_income_goal is not None:
+            data['yearly_income_goal'] = yearly_income_goal
+        if yearly_expense_goal is not None:
+            data['yearly_expense_goal'] = yearly_expense_goal
+
+        if data:
+            try:
+                with shelve.open(self._filename) as db:
+                    db['data'] = data
+                    print(f"Data updated")
+            except shelve.ShelfError as e:
+                print(f"Error updating data")
+
+    def read_data(self):
+        """
+        Reads and returns the stored financial data from the shelve file.
+
+        Returns:
+            dict: A dictionary containing the stored financial data.
+        """
+
+        try:
+            with shelve.open(self._filename) as db:
+                data = db.get('data', {})
+                return data
+        except shelve.ShelfError as e:
+            print(f"Error reading data: {e}")
+            return {}
+
+
 
 class MoneyManagement:
     """A class to manage income and expenses. Income and expenses work on a key:val pair of Month:value"""
@@ -213,12 +281,19 @@ class Goals:
         return self.yearly_expense_goal
 
 class GUI_management:
-    def __init__(self, money_management, goals):
+    def __init__(self, money_management, goals, persistence):
         self.window = Tk()
         self.window.title("Financial Management Tool")
 
         self.money_management = money_management
         self.goals = goals
+        self.persistence = persistence
+
+        data = self.persistence.read_data()
+        income = data.get('income', None) # grab the dictionary for income or none if it doesnt exist
+
+        if income is not None:
+            pass
 
     def content_frame(self):
         self.mainframe = ttk.Frame(self.window, padding="3 3 12 12")
@@ -242,6 +317,8 @@ class GUI_management:
         income_value = self.income_var.get()
         self.money_management.change_income(income_value)
 
+        self.persistence.update_database(income=float(income_value))
+
     def expenses_widgets(self):
         expenses_label = Label(self.mainframe, text="Expenses:")
         expenses_label.grid(column=0, row=1, sticky=W)
@@ -257,6 +334,8 @@ class GUI_management:
         expenses_value = self.expenses_var.get()
         self.money_management.adjust_expenses(expenses_value)
 
+        self.persistence.update_database(expenses=float(expenses_value))
+
     def goals_widgets(self):
         goals_label = Label(self.mainframe, text="Monthly Income Goal:")
         goals_label.grid(column=0, row=2, sticky=W)
@@ -271,6 +350,9 @@ class GUI_management:
     def set_goal(self):
         goal_value = self.goals_var.get()
         self.goals.update_monthly_goal(goal_value, 'i')
+
+        self.persistence.update_database(income_goal=float(goal_value))
+
 
     def plot_chart(self):
         # Get monthly income and expenses data
@@ -310,7 +392,8 @@ class GUI_management:
 def main():
     money_management = MoneyManagement()
     goals = Goals()
-    gui = GUI_management(money_management, goals)
+    persistence = DataPersistence()
+    gui = GUI_management(money_management, goals, persistence)
     gui.content_frame()
     gui.income_widgets()
     gui.expenses_widgets()
