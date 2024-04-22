@@ -1,13 +1,14 @@
 from tkinter import *
 from tkinter import ttk
+from datetime import datetime
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import matplotlib.pyplot as plt
-from datetime import datetime
-
+import matplotlib.pyplot as plt 
 
 class DataUnavailableError(Exception):
-    pass
+    def __init__(self, message="Data is unavailable"):
+        self.message = message
+        super().__init__(self.message)
 
 class MoneyManagement:
     """A class to manage income and expenses. Income and expenses work on a key:val pair of Month:value"""
@@ -91,6 +92,10 @@ class MoneyManagement:
         for month in self.expenses:
             total_expenses += self.expenses[month]
         return total_expenses
+    
+  
+
+
     
 class Goals:
     """A class to manage financial goals."""
@@ -222,43 +227,99 @@ class GUI_management:
         self.window.columnconfigure(0, weight=1)
         self.window.rowconfigure(0, weight=1)
 
-    def plugin_creation(self):
+    def income_widgets(self):
+        income_label = Label(self.mainframe, text="Income:")
+        income_label.grid(column=0, row=0, sticky=W)
+
         self.income_var = StringVar()
+        income_entry = ttk.Entry(self.mainframe, textvariable=self.income_var)
+        income_entry.grid(column=1, row=0, sticky=(W,E))
 
-        income_label = Label(self.window, text="Income:")
-        income_label.pack()
+        income_button = Button(self.mainframe, text="Update Income", command=self.update_income)
+        income_button.grid(column=2, row=0, sticky=W)
 
-        income_entry = ttk.Entry(self.window, widget=7, textvariable=self.income_var)
-        income_entry.pack()
-
-        income_button = Button(self.window, text="Update Income", command=lambda: self.update_income(self.income_var.get()))
-        income_button.pack()
-    
-    def update_income(self, income_value):
+    def update_income(self):
+        income_value = self.income_var.get()
         self.money_management.change_income(income_value)
 
-    def update_expense(self):
-        expense_value = self.expense_var.get()
+    def expenses_widgets(self):
+        expenses_label = Label(self.mainframe, text="Expenses:")
+        expenses_label.grid(column=0, row=1, sticky=W)
 
-    def expense_widgets(self):
-        #code to add expense widget for gui
-        pass 
+        self.expenses_var = StringVar()
+        expenses_entry = ttk.Entry(self.mainframe, textvariable=self.expenses_var)
+        expenses_entry.grid(column=1, row=1, sticky=(W,E))
 
-    def goal_widgets(self):
-        #code to add goal widget for gui
-        pass 
+        expenses_button = Button(self.mainframe, text="Update Expenses", command=self.update_expenses)
+        expenses_button.grid(column=2, row=1, sticky=W)
+
+    def update_expenses(self):
+        expenses_value = self.expenses_var.get()
+        self.money_management.adjust_expenses(expenses_value)
+
+    def goals_widgets(self):
+        goals_label = Label(self.mainframe, text="Monthly Income Goal:")
+        goals_label.grid(column=0, row=2, sticky=W)
+
+        self.goals_var = StringVar()
+        goals_entry = ttk.Entry(self.mainframe, textvariable=self.goals_var)
+        goals_entry.grid(column=1, row=2, sticky=(W,E))
+
+        goals_button = Button(self.mainframe, text="Set Goal", command=self.set_goal)
+        goals_button.grid(column=2, row=2, sticky=W)
+
+    def set_goal(self):
+        goal_value = self.goals_var.get()
+        self.goals.update_monthly_goal(goal_value, 'i')
+
+    def plot_chart(self):
+        # Get monthly income and expenses data
+        months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        income_data = [self.money_management.income.get(month, 0) for month in range(1, 13)]
+        expenses_data = [self.money_management.expenses.get(month, 0) for month in range(1, 13)]
+
+        # Create a bar chart
+        fig, ax = plt.subplots()
+        bar_width = 0.35
+        index = range(1, 13)
+        bar1 = ax.bar(index, income_data, bar_width, label='Income')
+        bar2 = ax.bar(index, expenses_data, bar_width, label='Expenses', bottom=income_data)
+
+        ax.set_xlabel('Month')
+        ax.set_ylabel('Amount')
+        ax.set_title('Monthly Income and Expenses')
+        ax.set_xticks(index)
+        ax.set_xticklabels(months)
+        ax.legend()
+
+        plt.show()
 
     def start(self):
+        self.content_frame()
+        self.income_widgets()
+        self.expenses_widgets()
+        self.goals_widgets()
+        # Add a button to plot the chart
+        plot_button = Button(self.mainframe, text="Plot Chart", command=self.plot_chart)
+        plot_button.grid(column=0, row=3, columnspan=3, sticky=W+E)
+
         self.window.mainloop()
 
-def main():
-    """ Main program """
-    gui = GUI_management()
-    gui.content_frame()
-    gui.plugin_creation()
-    gui.start()
 
+
+def main():
+    money_management = MoneyManagement()
+    goals = Goals()
+    gui = GUI_management(money_management, goals)
+    gui.content_frame()
+    gui.income_widgets()
+    gui.expenses_widgets()
+    gui.goals_widgets()
+    gui.start()
     return 0
+
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
