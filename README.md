@@ -1,11 +1,20 @@
 # INST326-Financial-Manager
-## The finanical_management_tool file provides functionality for:
+## Description 
+This is a financial management tool implemented in Python using the Tkinter library for the GUI and matplotlib for data visualization. It allows users to update their income and expenses, set monthly income goals, and view monthly and yearly financial data in a graphical format.
+
+## Usage
+Ensure Python and required packages (matplotlib) are installed on your system. To open the GUI, you can run the program by executing the main() function from the command line:
+```sh
+python financial_management_tool.py
+```
+
+## `finacial_management_tool` Functionality:
 - **Expense and income tracking**: Users can record, categorize, and view their expenses and incomes
 - **Financial goals setting**: Users can set and track progress towards financial goals
 - **Reports**: The program will generate text-based reports summarizing financial activity and goal progress
-- **Data Visualization**: Charts(Bar/Line/Pie) to easily represent income and expense classes, track progress towards saving goals, or offer a quick look at how income is allocated across  different expense categories
+- **Data Visualization**: The GUI includes a button to plot a bar chart showing monthly income and expenses.
 
-## The unittest file provides functionality for:
+## `unittest` Functionality:
 - **Creating instances of the three classes before each method**
 - **Testing the MoneyMnagement class**: Changing and adusting income and expenses, handling unavaible data, calcualting total yearly income and expenses
 - **Testing the Goals class:** Updating and getting monthly and yearly income and expense goals
