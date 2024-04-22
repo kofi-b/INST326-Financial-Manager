@@ -119,4 +119,5 @@ python financial_management_tool.py
 - May separate classes into standalone files for readability
 - Separate Readme class documentation for readability
 - Fix the update_yearly_income_goal to match monthly by using an additional type specifier
+- Add functionality to MoneyManagement() and Goals() to update their values based on values grabbed from the database
 
