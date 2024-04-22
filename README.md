@@ -107,8 +107,8 @@ python financial_management_tool.py
 - [2nd Markdown Cheatsheet](https://github.com/tchapi/markdown-cheatsheet/blob/master/README.md)
 - [Basic formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#links)
 - [Private Methods in Python](https://www.geeksforgeeks.org/private-methods-in-python/)
-- [Shelving in Python] (https://docs.python.org/3/library/shelve.html)
-- [Data Persistence in Python] (https://www.tutorialspoint.com/python_data_persistence/python_data_persistence_quick_guide.htm)
+- [Shelving in Python](https://docs.python.org/3/library/shelve.html)
+- [Data Persistence in Python](https://www.tutorialspoint.com/python_data_persistence/python_data_persistence_quick_guide.htm)
 
 
 
