@@ -23,7 +23,8 @@ python financial_management_tool.py
 ## Currently In Progress:
 - [ ] UI Implementation(Buttons, input boxes)
 - [ ] Text Based reporting
-- [ ] Data Visualization 
+- [ ] Data Visualization
+- [ ] Data Persistence 
 
 ## Classes contained in this file
 <details>
