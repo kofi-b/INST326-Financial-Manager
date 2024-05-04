@@ -85,6 +85,12 @@ class MoneyManagement:
         self.income = {}
         self.expenses = {}
 
+    def load_data(self, data):
+        
+        pass
+    def get_data(self):
+        return self.income, self.expenses
+
     def change_income(self, value: str) -> None:
         """Change the monthly income for the current month.
 
@@ -162,8 +168,6 @@ class MoneyManagement:
         return total_expenses
     
   
-
-
     
 class Goals:
     """A class to manage financial goals."""
@@ -176,6 +180,12 @@ class Goals:
         self.yearly_income_goal = 0.0 # Can be adjusted to handle multiple years
         self.yearly_expense_goal = 0.0
 
+    def load_data(self, data):
+        pass
+
+    def get_data(self):
+        return self.income_goal, self.expense_goal, self.yearly_income_goal, self.yearly_expense_goal
+    
     def _get_month_num(self, month_name: str) -> int:
         """Private helper method, converts month name to its corresponding number.
 
@@ -289,11 +299,11 @@ class GUI_management:
         self.goals = goals
         self.persistence = persistence
 
-        data = self.persistence.read_data()
+    """         data = self.persistence.read_data()
         income = data.get('income', None) # grab the dictionary for income or none if it doesnt exist
 
         if income is not None:
-            pass
+            pass """
 
     def content_frame(self):
         self.mainframe = ttk.Frame(self.window, padding="3 3 12 12")
@@ -317,7 +327,7 @@ class GUI_management:
         income_value = self.income_var.get()
         self.money_management.change_income(income_value)
 
-        self.persistence.update_database(income=float(income_value))
+        #self.persistence.update_database(income=float(income_value))
 
     def expenses_widgets(self):
         expenses_label = Label(self.mainframe, text="Expenses:")
@@ -334,7 +344,7 @@ class GUI_management:
         expenses_value = self.expenses_var.get()
         self.money_management.adjust_expenses(expenses_value)
 
-        self.persistence.update_database(expenses=float(expenses_value))
+        #self.persistence.update_database(expenses=float(expenses_value))
 
     def goals_widgets(self):
         goals_label = Label(self.mainframe, text="Monthly Income Goal:")
@@ -351,7 +361,16 @@ class GUI_management:
         goal_value = self.goals_var.get()
         self.goals.update_monthly_goal(goal_value, 'i')
 
-        self.persistence.update_database(income_goal=float(goal_value))
+        #self.persistence.update_database(income_goal=float(goal_value))
+
+    def on_closing(self):
+        income, expenses = self.money_management.get_data()
+        income_goal, expense_goal, yearly_income_goal, yearly_expense_goal = self.goals.get_data()
+
+        self.persistence.update_database(income, expenses, income_goal, expense_goal,yearly_income_goal, yearly_expense_goal)
+        self.window.destroy()
+
+
 
 
     def plot_chart(self):
@@ -363,14 +382,17 @@ class GUI_management:
         # Create a bar chart
         fig, ax = plt.subplots()
         bar_width = 0.35
+
+        # Create a list of positions for expense bars with an offset that are side-by-side
         index = range(1, 13)
         bar1 = ax.bar(index, income_data, bar_width, label='Income')
-        bar2 = ax.bar(index, expenses_data, bar_width, label='Expenses', bottom=income_data)
+        bar2 = ax.bar([i + bar_width for i in index], expenses_data, bar_width, label='Expenses')
+
 
         ax.set_xlabel('Month')
         ax.set_ylabel('Amount')
         ax.set_title('Monthly Income and Expenses')
-        ax.set_xticks(index)
+        ax.set_xticks([i + bar_width / 2 for i in index])
         ax.set_xticklabels(months)
         ax.legend()
 
@@ -385,6 +407,8 @@ class GUI_management:
         plot_button = Button(self.mainframe, text="Plot Chart", command=self.plot_chart)
         plot_button.grid(column=0, row=3, columnspan=3, sticky=W+E)
 
+        self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
+
         self.window.mainloop()
 
 
@@ -393,16 +417,21 @@ def main():
     money_management = MoneyManagement()
     goals = Goals()
     persistence = DataPersistence()
+    data = persistence.read_data()
+    if data:
+        money_management.load_data(data)
+        goals.load_data(data)
+
     gui = GUI_management(money_management, goals, persistence)
     gui.content_frame()
     gui.income_widgets()
     gui.expenses_widgets()
     gui.goals_widgets()
     gui.start()
+    #gui.protocol("WM_DELETE_WINDOW", gui.on_closing())
     return 0
 
 if __name__ == "__main__":
     main()
 
-if __name__ == "__main__":
-    main()
+
