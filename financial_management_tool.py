@@ -13,7 +13,7 @@ class DataUnavailableError(Exception):
         super().__init__(self.message)
 
 class DataPersistence:
-    _filename = 'financial_management_data.db'
+    _filename = 'financial_management_data'
 
     def __init__(self):
         try:        
@@ -85,7 +85,7 @@ class MoneyManagement:
         self.income = {}
         self.expenses = {}
 
-    def load_data(self, data):
+    def load_data(self, data: dict) -> None:
         income = data.get("income")
         for info in income.items():
             self.update_values(type="i", value=info[1], month=info[0])
@@ -137,20 +137,6 @@ class MoneyManagement:
             
             return self.income[curr_month]
             
-
-    def get_monthly_income(self) -> float:
-        """Get the monthly income for the current month.
-
-        Returns:
-            float: The monthly income.
-
-        """
-
-        curr_month = datetime.now().month
-        if curr_month in self.income:
-            return self.income[curr_month]
-        else:
-            raise DataUnavailableError("Monthly income data is not available for this month")
     
     def get_yearly_income(self) -> float:
         """Get the total income for the current year.
@@ -189,7 +175,7 @@ class Goals:
         self.yearly_income_goal = 0.0 # Can be adjusted to handle multiple years
         self.yearly_expense_goal = 0.0
 
-    def load_data(self, data):
+    def load_data(self, data) -> None:
 
         income = data.get("income_goal")
         for info in income.items():
@@ -210,7 +196,7 @@ class Goals:
 
         pass
 
-    def get_data(self):
+    def get_data(self) -> None:
         return self.income_goal, self.expense_goal, self.yearly_income_goal, self.yearly_expense_goal
     
 

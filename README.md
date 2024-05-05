@@ -22,7 +22,7 @@ python financial_management_tool.py
 
 ## Currently In Progress:
 - [x] UI Implementation(Buttons, input boxes)
-- [ ] Text Based reporting
+- [x] Text Based reporting
 - [x] Data Visualization
 - [x] Data Persistence 
 
@@ -51,10 +51,11 @@ python financial_management_tool.py
     <b>Functions:</b>
         <ol type="1">
             <li> <code class="language-python">__init__(self)</code></li>
-            <li> <code class="language-python">change_income(self, value: str) -> None</code></li>
-            <li> <code class="language-python">adjust_expenses(self, value: str) -> None</code></li>
-            <li> <code class="language-python">get_monthly_expenses(self, value: str) -> None</code></li>
-            <li> <code class="language-python">get_monthly_income(self) -> float</code></li>
+            <li> <code class="language-python">load_data(self, data:dict) -> None</code></li>
+            <li> <code class="language-python">get_data(self) -> None</code></li>
+            <li> <code class="language-python">update_values(self, type: str, value: float, month: str) -> None</code></li>
+            <li> <code class="language-python">change_monthly_vals(self, value: str, type:str) -> None</code></li>
+            <li> <code class="language-python">get_monthly_vals(self, value: str) -> None</code></li>
             <li> <code class="language-python">get_yearly_income(self) -> float</code></li>
             <li> <code class="language-python">get_yearly_expenses(self) -> float</code></li>
         </ol>
@@ -69,14 +70,12 @@ python financial_management_tool.py
         <b>Functions:</b>
         <ol type="1">
             <li> <code class="language-python">__init__(self)</code></li>
-            <li> <code class="language-python">_get_month_num(self, month_name: str) -> int</code></li>
+            <li> <code class="language-python">load_data(self, data:dict) -> None</code></li>
+            <li> <code class="language-python">get_data(self) -> None</code></li>
             <li> <code class="language-python">update_monthly_goal(self, goal: str, type: str, month: str = None) -> None</code></li>
             <li> <code class="language-python">get_monthly_goal(self, type: str) -> float</code></li>
-            <li> <code class="language-python">update_yearly_income_goal(self, goal: str) -> None</code></li>
-            <li> <code class="language-python">get_yearly_income_goal(self) -> float</code></li>
-            <li> <code class="language-python">get_monthly_expense_goal(self) -> float</code></li>
-            <li> <code class="language-python">update_yearly_expense_goal(self, goal: str) -> None</code></li>
-            <li> <code class="language-python">get_yearly_expense_goal(self) -> float</code></li>
+            <li> <code class="language-python">update_yearly_goal(self, goal: str, type: str) -> None</code></li>
+            <li> <code class="language-python">get_yearly_goal(self, type: str) -> float</code></li>
         </ol>
     </p>
 </details>
@@ -84,15 +83,22 @@ python financial_management_tool.py
 <details>
     <summary>GUI Management</summary>
     <p>
-        <b>GUI_management():</b> This class acts as a container for GUI related functions through tkinter. It will define a content frame and in time different tabs to access the project deliverables(data visualization, switching between income and expense, setting goals, etc). Upon initialization, it will define a window and a title for tkinter to operate on, along with initializing a Goals() and MoneyManagement() instance. Currently a WIP.
+        <b>GUI_management():</b> This class acts as a container for GUI related functions through tkinter. It will define a content frame and in time different tabs to access the project deliverables(data visualization, switching between income and expense, setting goals, etc). Upon initialization, it will define a window and a title for tkinter to operate on, along with initializing a Goals() and MoneyManagement() instance. All methods have no return value.
 		<br>
         <b>Functions:</b>
         <ol type="1">
             <li> <code class="language-python">__init__(self)</code></li>
-            <li> <code class="language-python">content_frame(self) -> None</code></li>
-            <li> <code class="language-python">plugin_creation(self) -> None</code></li>
-            <li> <code class="language-python">update_income(self, income_value) -> None</code></li>
-            <li> <code class="language-python">start(self) -> None</code></li>
+            <li> <code class="language-python">content_frame(self)</code></li>
+            <li> <code class="language-python">income_widgets(self)</code></li>
+            <li> <code class="language-python">update_income(self)</code></li>
+            <li> <code class="language-python">expenses_widgets(self)</code></li>
+            <li> <code class="language-python">update_expenses(self)</code></li>
+            <li> <code class="language-python">goals_widgets(self)</code></li>
+            <li> <code class="language-python">set_goal(self, type)</code></li>
+            <li> <code class="language-python">on_closing(self)</code></li>
+            <li> <code class="language-python">plot_chart(self)</code></li>
+            <li> <code class="language-python">open_info_window(self)</code></li>
+            <li> <code class="language-python">start(self)</code></li>
         </ol>
     </p>
 </details>
