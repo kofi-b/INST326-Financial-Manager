@@ -24,7 +24,7 @@ python financial_management_tool.py
 - [x] UI Implementation(Buttons, input boxes)
 - [ ] Text Based reporting
 - [x] Data Visualization
-- [ ] Data Persistence 
+- [x] Data Persistence 
 
 ## Classes contained in this file
 <details>
@@ -109,15 +109,14 @@ python financial_management_tool.py
 - [Private Methods in Python](https://www.geeksforgeeks.org/private-methods-in-python/)
 - [Shelving in Python](https://docs.python.org/3/library/shelve.html)
 - [Data Persistence in Python](https://www.tutorialspoint.com/python_data_persistence/python_data_persistence_quick_guide.htm)
+- [matplotlib](https://matplotlib.org/stable/)
+- [Tkinter protocols](https://web.archive.org/web/20201111215134/http://effbot.org/tkinterbook/tkinter-events-and-bindings.htm#protocols)
+- [Lambda Expressions](https://realpython.com/python-lambda/)
 
 
 
 
 ## Notes for changes:
 - Populate expenses and income dictionary with a default 0 to remove need for an exception class
-- Assuming input will be handled in tkinter as a string but will research taking in respective values as they should be inputted, auto parse into floats for needed functions to avoid doing it in each function
 - May separate classes into standalone files for readability
-- Separate Readme class documentation for readability
-- Fix the update_yearly_income_goal to match monthly by using an additional type specifier
-- Add functionality to MoneyManagement() and Goals() to update their values based on values grabbed from the database
 
