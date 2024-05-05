@@ -94,8 +94,6 @@ class MoneyManagement:
         for info in expenses.items():
             self.update_values(type="e", value=info[1], month=info[0])
 
-
-        
     def get_data(self):
         return self.income, self.expenses
 
@@ -121,18 +119,24 @@ class MoneyManagement:
             currMonth = datetime.now().month
             self.expenses[currMonth] = expenses
 
-    def get_monthly_expenses(self, value: str) -> None:
-        """Get the monthly expenses for the current month.
+    def get_monthly_vals(self, value: str) -> None:
+        """Get the monthly income/expenses for the current month.
 
         Returns:
+            float: The monthly income.
             float: The monthly expenses.
 
         """
-        curr_month = datetime.now().month
-        if curr_month in self.expenses:
+        if value == "e":
+            curr_month = datetime.now().month
+
             return self.expenses[curr_month]
+            
         else:
-            raise DataUnavailableError("Monthly expenses data is not available for this month")
+            curr_month = datetime.now().month
+            
+            return self.income[curr_month]
+            
 
     def get_monthly_income(self) -> float:
         """Get the monthly income for the current month.
@@ -396,6 +400,60 @@ class GUI_management:
 
         plt.show()
 
+    def open_info_window(self):
+        info_window = Toplevel(self.window)
+        info_window.title("Monthly Report")
+
+        curr_expenses = self.money_management.get_monthly_vals("e")
+        curr_income = self.money_management.get_monthly_vals("i")
+
+        yearly_income = self.money_management.get_yearly_income()
+        yearly_expenses = self.money_management.get_yearly_expenses()
+
+        income_goal = self.goals.get_monthly_goal("i")
+        expense_goal = self.goals.get_monthly_goal("e")
+
+        if curr_expenses > curr_income:
+            percentage_text = f"Currently, your expenses are higher than your income by {curr_income/curr_expenses*100:.2f}%. "  
+            income_goal_text = f"You set an income goal of ${income_goal:.2f}. "
+
+            info_text = percentage_text + income_goal_text
+
+            if income_goal > curr_income:
+                info_text += "\n     * It looks like you might need to work a little harder to reach your income goal this month."
+            else:
+                info_text += "\n     * Keep up the good work! You surpassed your goal."
+            
+            info_text += f"\n\nYou set an expense goal of ${expense_goal:.2f}. Here's how it looks:"
+
+            if expense_goal < curr_expenses:
+                info_text += "\n    * It looks like you might need to adjust your spending habits to get lower your expenses and reach your goal. What innessential things can you cut out of your spending this month(i.e. Subscriptions, eating out, etc)."
+            else:
+                info_text += "\n    * Keep up the good work! You reduced your expenses below the goal"
+        else:
+            #This text occurs when their income > than monthly expenses
+            percentage_text = f"Currently, your income is higher than your expenses by {curr_expenses/curr_income*100:.2f}%. "  
+            income_goal_text = f"You set an income goal of ${income_goal:.2f}. "
+
+            info_text = percentage_text + income_goal_text + "You're doing great so far by surpassing your current expenses, but lets check how far you are on achieving your goals:"
+
+            if income_goal > curr_income:
+                info_text += "\n    * It looks like you might need to work a little harder to reach your income goal this month."
+            else:
+                info_text += "\n    * Keep up the good work! You surpassed your goal."
+
+            info_text += f"\n\nYou set an expense goal of ${expense_goal:.2f}. Here's how it looks:"
+
+            if expense_goal < curr_expenses:
+                info_text += "\n    * It looks like you might need to adjust your spending habits to get lower your expenses and reach your goal. What innessential things can you cut out of your spending this month(i.e. Subscriptions, eating out, etc). Although you are making more than you are losing, it never hurts to have more money"
+            else:
+                info_text += "\n    * Keep up the good work! You reduced your expenses below the goal"
+
+
+        info_label = Label(info_window, text=info_text, justify=LEFT, wraplength=300)
+        info_label.pack(padx=10, pady=10)
+
+
     def start(self):
         self.content_frame()
         self.income_widgets()
@@ -404,6 +462,9 @@ class GUI_management:
         # Add a button to plot the chart
         plot_button = Button(self.mainframe, text="Plot Chart", command=self.plot_chart)
         plot_button.grid(column=0, row=3, columnspan=3, sticky=W+E)
+
+        info_button = Button(self.mainframe, text="Monthly Report", command=self.open_info_window)
+        info_button.grid(column=3, row=3, sticky=E)
 
         self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
 
