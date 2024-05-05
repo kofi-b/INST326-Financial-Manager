@@ -5,10 +5,78 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt 
 
+import shelve
+
 class DataUnavailableError(Exception):
     def __init__(self, message="Data is unavailable"):
         self.message = message
         super().__init__(self.message)
+
+class DataPersistence:
+    _filename = 'financial_management_data.db'
+
+    def __init__(self):
+        try:        
+            with shelve.open(self._filename, 'c') as db:
+                db.setdefault('data', {})
+            print(f"File '{self._filename}' opened")
+        except shelve.ShelfError as e:
+            print(f"Error opening: {e}")
+    
+    def update_database(self, income=None, expenses=None, 
+                        income_goal=None, expense_goal=None, 
+                        yearly_income_goal=None, yearly_expense_goal=None) -> None:
+        """
+        Updates the shelve file with income, expense, and goal data.
+
+        Args:
+            income (float, optional): The user's monthly income.
+            expenses (float, optional): The user's monthly expenses.
+            income_goal (float, optional): The user's monthly income goal.
+            expense_goal (float, optional): The user's monthly expense goal.
+            yearly_income_goal (float, optional): The user's yearly income goal.
+            yearly_expense_goal (float, optional): The user's yearly expense goal.
+        """
+
+        data = {}
+        if income is not None:
+            data['income'] = income
+        if expenses is not None:
+            data['expenses'] = expenses
+        if income_goal is not None:
+            data['income_goal'] = income_goal
+        if expense_goal is not None:
+            data['expense_goal'] = expense_goal
+        if yearly_income_goal is not None:
+            data['yearly_income_goal'] = yearly_income_goal
+        if yearly_expense_goal is not None:
+            data['yearly_expense_goal'] = yearly_expense_goal
+
+        if data:
+            try:
+                with shelve.open(self._filename) as db:
+                    db['data'] = data
+                    print(f"Data updated")
+            except shelve.ShelfError as e:
+                print(f"Error updating data")
+
+    def read_data(self):
+        """
+        Reads and returns the stored financial data from the shelve file.
+
+        Returns:
+            dict: A dictionary containing the stored financial data.
+        """
+
+        try:
+            with shelve.open(self._filename) as db:
+                data = db.get('data', {})
+                return data
+        except shelve.ShelfError as e:
+            print(f"Error reading data: {e}")
+            return {}
+
+
 
 class MoneyManagement:
     """A class to manage income and expenses. Income and expenses work on a key:val pair of Month:value"""
@@ -17,30 +85,41 @@ class MoneyManagement:
         self.income = {}
         self.expenses = {}
 
-    def change_income(self, value: str) -> None:
-        """Change the monthly income for the current month.
+    def load_data(self, data):
+        income = data.get("income")
+        for info in income.items():
+            self.update_values(type="i", value=info[1], month=info[0])
+
+        expenses = data.get("expenses")
+        for info in expenses.items():
+            self.update_values(type="e", value=info[1], month=info[0])
+
+
+        
+    def get_data(self):
+        return self.income, self.expenses
+
+    def update_values(self, type: str, value: float, month: str) -> None:
+        if type == "i":
+            self.income[month] = value
+        else:
+            self.expenses[month] = value
+
+    def change_monthly_vals(self, value: str, type: str) -> None:
+        """Change the monthly income/expenses for the current month.
 
         Args:
             value (str): The new income value.
 
         """
-
-        income = float(value)
-        currMonth = datetime.now().month
-        self.income[currMonth] = income
-     
-    def adjust_expenses(self, value: str) -> None:
-        """Adjust the monthly expenses for the current month.
-
-        Args:
-            value (str): The new expenses value.
-
-        """
-
-        expenses = float(value)
-        currMonth = datetime.now().month
-
-        self.expenses[currMonth] = expenses
+        if type == "i":
+            income = float(value)
+            currMonth = datetime.now().month
+            self.income[currMonth] = income
+        else:
+            expenses = float(value)
+            currMonth = datetime.now().month
+            self.expenses[currMonth] = expenses
 
     def get_monthly_expenses(self, value: str) -> None:
         """Get the monthly expenses for the current month.
@@ -94,8 +173,6 @@ class MoneyManagement:
         return total_expenses
     
   
-
-
     
 class Goals:
     """A class to manage financial goals."""
@@ -108,22 +185,30 @@ class Goals:
         self.yearly_income_goal = 0.0 # Can be adjusted to handle multiple years
         self.yearly_expense_goal = 0.0
 
-    def _get_month_num(self, month_name: str) -> int:
-        """Private helper method, converts month name to its corresponding number.
+    def load_data(self, data):
 
-        Args:
-            month_name (str): The name of the month.
+        income = data.get("income_goal")
+        for info in income.items():
+            #print([info[0]])
+            self.update_monthly_goal(goal=info[1], type="i", month=info[0])
+        
+        expense = data.get("expense_goal")
+        for info in expense.items():
+            self.update_monthly_goal(goal=info[1], type="e", month=info[0])
 
-        Returns:
-            int: The number representing the month.
+        #Get and set yearly data
+        yearly_income = data.get("yearly_income_goal")
+        yearly_expense = data.get("yearly_expense_goal")
 
-        """
-        months = {
-            'January': 1, 'February': 2, 'March': 3, 'April': 4,
-            'May': 5, 'June': 6, 'July': 7, 'August': 8,
-            'September': 9, 'October': 10, 'November': 11, 'December': 12
-        }
-        return months.get(month_name.capitalize())
+        self.yearly_income_goal = yearly_income
+        self.yearly_expense_goal = yearly_expense
+
+
+        pass
+
+    def get_data(self):
+        return self.income_goal, self.expense_goal, self.yearly_income_goal, self.yearly_expense_goal
+    
 
     def update_monthly_goal(self, goal: str, type: str, month: str = None) -> None:
         """Update the monthly income goal for the current month.
@@ -138,9 +223,7 @@ class Goals:
 
         currMonth = datetime.now().month
         if month:
-            month_num = self._get_month_number(month)
-            if month_num is None:
-                raise DataUnavailableError("Invalid month name")
+            month_num = month
         else:
             month_num = currMonth
         if type == "i":
@@ -156,16 +239,17 @@ class Goals:
 
         Returns:
             float: The monthly income goal.
+            float: The monthly expense goal.
 
         """
-
+        
         currMonth = datetime.now().month
         if type.lower() == "i":
             return self.income_goal[currMonth]
         else:
             return self.expense_goal[currMonth]
     
-    def update_yearly_income_goal(self, goal: str) -> None:
+    def update_yearly_goal(self, goal: str, type: str) -> None:
         """Update the yearly income goal.
 
         Args:
@@ -173,52 +257,37 @@ class Goals:
             type (str): Specifies whether income[i] or expense[e]
 
         """
-        self.yearly_income_goal = float(goal)
+        if type.lower() == "i":
+            self.yearly_income_goal = float(goal)
+        else:
+            self.yearly_expense_goal = float(goal)
     
-    def get_yearly_income_goal(self) -> float:
+    def get_yearly_goal(self, type: str) -> float:
         """Get the yearly income goal.
 
         Returns:
             float: The yearly income goal.
 
         """
-        return self.yearly_income_goal
+        if type.lower() == "i":
+            return self.yearly_income_goal
+        else:
+            return self.yearly_expense_goal
     
 
-    def get_monthly_expense_goal(self) -> float:
-        """Get the monthly expense goal for the current month.
 
-        Returns:
-            float: The monthly expense goal.
 
-        """
-        return self.income_goal[datetime.now().month]
-    
-    def update_yearly_expense_goal(self, goal: str) -> None:
-        """Update the yearly expense goal.
-
-        Args:
-            goal (str): The new yearly expense goal.
-
-        """
-        self.yearly_expense_goal = float(goal)
-
-    def get_yearly_expense_goal(self) -> float:
-        """Get the yearly expense goal.
-
-        Returns:
-            float: The yearly expense goal.
-
-        """
-        return self.yearly_expense_goal
 
 class GUI_management:
-    def __init__(self, money_management, goals):
+    def __init__(self, money_management, goals, persistence):
         self.window = Tk()
         self.window.title("Financial Management Tool")
 
         self.money_management = money_management
         self.goals = goals
+        self.persistence = persistence
+
+
 
     def content_frame(self):
         self.mainframe = ttk.Frame(self.window, padding="3 3 12 12")
@@ -240,7 +309,9 @@ class GUI_management:
 
     def update_income(self):
         income_value = self.income_var.get()
-        self.money_management.change_income(income_value)
+        self.money_management.change_monthly_vals(income_value, "i")
+
+        #self.persistence.update_database(income=float(income_value))
 
     def expenses_widgets(self):
         expenses_label = Label(self.mainframe, text="Expenses:")
@@ -255,40 +326,71 @@ class GUI_management:
 
     def update_expenses(self):
         expenses_value = self.expenses_var.get()
-        self.money_management.adjust_expenses(expenses_value)
+        self.money_management.change_monthly_vals(expenses_value, "e")
+
+        #self.persistence.update_database(expenses=float(expenses_value))
 
     def goals_widgets(self):
-        goals_label = Label(self.mainframe, text="Monthly Income Goal:")
+        goals_label = Label(self.mainframe, text="Goals:")
         goals_label.grid(column=0, row=2, sticky=W)
 
         self.goals_var = StringVar()
         goals_entry = ttk.Entry(self.mainframe, textvariable=self.goals_var)
         goals_entry.grid(column=1, row=2, sticky=(W,E))
 
-        goals_button = Button(self.mainframe, text="Set Goal", command=self.set_goal)
-        goals_button.grid(column=2, row=2, sticky=W)
+        income_button = Button(self.mainframe, text="Income Goal", command=lambda: self.set_goal('i'))
+        income_button.grid(column=2, row=2, sticky=W, padx=(2, 1))
 
-    def set_goal(self):
+        expense_button = Button(self.mainframe, text="Expense Goal", command=lambda: self.set_goal('e'))
+        expense_button.grid(column=3, row=2, sticky=W, padx=(1, 4))
+
+
+        
+    def set_goal(self, type):
         goal_value = self.goals_var.get()
-        self.goals.update_monthly_goal(goal_value, 'i')
+        if type.lower() == "i":
+            self.goals.update_monthly_goal(goal_value, "i")
+        else:
+            self.goals.update_monthly_goal(goal_value, "e")
+
+
+        #self.persistence.update_database(income_goal=float(goal_value))
+
+    def on_closing(self):
+        income, expenses = self.money_management.get_data()
+        income_goal, expense_goal, yearly_income_goal, yearly_expense_goal = self.goals.get_data()
+
+        self.persistence.update_database(income, expenses, income_goal, expense_goal,yearly_income_goal, yearly_expense_goal)
+        self.window.destroy()
+
+
+
 
     def plot_chart(self):
         # Get monthly income and expenses data
         months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
         income_data = [self.money_management.income.get(month, 0) for month in range(1, 13)]
         expenses_data = [self.money_management.expenses.get(month, 0) for month in range(1, 13)]
+        income_goals = [self.goals.income_goal.get(month,0) for month in range(1, 13)]
+        expense_goals = [self.goals.expense_goal.get(month,0) for month in range(1, 13)]   
 
         # Create a bar chart
         fig, ax = plt.subplots()
         bar_width = 0.35
+
+        # Create a list of positions for expense bars with an offset that are side-by-side
         index = range(1, 13)
         bar1 = ax.bar(index, income_data, bar_width, label='Income')
-        bar2 = ax.bar(index, expenses_data, bar_width, label='Expenses', bottom=income_data)
+        bar2 = ax.bar([i + bar_width for i in index], expenses_data, bar_width, label='Expenses')
+
+        ax.scatter(index, income_goals, color='red', marker='*', label='Income Goal')
+        ax.scatter([i + bar_width for i in index], expense_goals, color='red', marker='s', label='Expense Goal')
+
 
         ax.set_xlabel('Month')
         ax.set_ylabel('Amount')
         ax.set_title('Monthly Income and Expenses')
-        ax.set_xticks(index)
+        ax.set_xticks([i + bar_width / 2 for i in index])
         ax.set_xticklabels(months)
         ax.legend()
 
@@ -303,6 +405,8 @@ class GUI_management:
         plot_button = Button(self.mainframe, text="Plot Chart", command=self.plot_chart)
         plot_button.grid(column=0, row=3, columnspan=3, sticky=W+E)
 
+        self.window.protocol("WM_DELETE_WINDOW", self.on_closing)
+
         self.window.mainloop()
 
 
@@ -310,16 +414,22 @@ class GUI_management:
 def main():
     money_management = MoneyManagement()
     goals = Goals()
-    gui = GUI_management(money_management, goals)
+    persistence = DataPersistence()
+    data = persistence.read_data()
+    if data:
+        money_management.load_data(data)
+        goals.load_data(data)
+
+    gui = GUI_management(money_management, goals, persistence)
     gui.content_frame()
     gui.income_widgets()
     gui.expenses_widgets()
     gui.goals_widgets()
     gui.start()
+    #gui.protocol("WM_DELETE_WINDOW", gui.on_closing())
     return 0
 
 if __name__ == "__main__":
     main()
 
-if __name__ == "__main__":
-    main()
+

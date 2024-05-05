@@ -21,11 +21,26 @@ python financial_management_tool.py
 - **Testing the GUI_management class:** Creating the main content frame
 
 ## Currently In Progress:
-- [ ] UI Implementation(Buttons, input boxes)
+- [x] UI Implementation(Buttons, input boxes)
 - [ ] Text Based reporting
-- [ ] Data Visualization 
+- [x] Data Visualization
+- [x] Data Persistence 
 
 ## Classes contained in this file
+<details>
+    <summary>Data Persistence</summary>
+    <p>
+        <b>DataPersistence():</b> This class manages storage of all the financial values being operated upon in the program. Upon initialization, the class creates a database file called 'financial_management_data' or alternatively opens it if it exists. It provides functionality for updating values as they are entered and retriving in the form of a dictionary.
+		<br>
+        <b>Functions:</b>
+        <ol type="1">
+            <li> <code class="language-python">__init__(self)</code></li>
+            <li> <code class="language-python">update_database(self, income=None, expenses=None, income_goal=None, expense_goal=None, yearly_income_goal=None, yearly_expense_goal=None) -> None</code></li>
+            <li> <code class="language-python">read_data(self) -> None</code></li>
+        </ol>
+    </p>
+</details>
+
 <details>
     <summary>Money Management</summary>
     <p>
@@ -92,13 +107,16 @@ python financial_management_tool.py
 - [2nd Markdown Cheatsheet](https://github.com/tchapi/markdown-cheatsheet/blob/master/README.md)
 - [Basic formatting syntax](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#links)
 - [Private Methods in Python](https://www.geeksforgeeks.org/private-methods-in-python/)
+- [Shelving in Python](https://docs.python.org/3/library/shelve.html)
+- [Data Persistence in Python](https://www.tutorialspoint.com/python_data_persistence/python_data_persistence_quick_guide.htm)
+- [matplotlib](https://matplotlib.org/stable/)
+- [Tkinter protocols](https://web.archive.org/web/20201111215134/http://effbot.org/tkinterbook/tkinter-events-and-bindings.htm#protocols)
+- [Lambda Expressions](https://realpython.com/python-lambda/)
+
 
 
 
 ## Notes for changes:
 - Populate expenses and income dictionary with a default 0 to remove need for an exception class
-- Assuming input will be handled in tkinter as a string but will research taking in respective values as they should be inputted, auto parse into floats for needed functions to avoid doing it in each function
 - May separate classes into standalone files for readability
-- Separate Readme class documentation for readability
-- Fix the update_yearly_income_goal to match monthly by using an additional type specifier
 
