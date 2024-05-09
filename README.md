@@ -14,11 +14,12 @@ python financial_management_tool.py
 - **Reports**: The program will generate text-based reports summarizing financial activity and goal progress
 - **Data Visualization**: The GUI includes a button to plot a bar chart showing monthly income and expenses.
 
-## `unittest` Functionality:
-- **Creating instances of the three classes before each method**
-- **Testing the MoneyMnagement class**: Changing and adusting income and expenses, handling unavaible data, calcualting total yearly income and expenses
-- **Testing the Goals class:** Updating and getting monthly and yearly income and expense goals
-- **Testing the GUI_management class:** Creating the main content frame
+## `tool_test` Functionality:
+- **Creating instances of the three classes before each method: Ensures that each test method operates on a clean instance of the classes, preventing interference between tests.**
+- **Testing the MoneyManagement class: Includes tests for initializing income and expenses, updating income and expenses for specific months, changing monthly income and expense values, and calculating total yearly income and expenses.**
+- **Testing the Goals class:  Includes tests for initializing income and expense goals, updating monthly income and expense goals, updating yearly income and expense goals, and getting yearly income and expense goals.**
+- **Includes tests for creating the main content frame of the GUI, including the layout and widgets for managing income, expenses, and goals.**
+
 
 ## Currently In Progress:
 - [x] UI Implementation(Buttons, input boxes)
