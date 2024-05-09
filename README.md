@@ -1,6 +1,6 @@
 # INST326-Financial-Manager
 ## Description 
-This is a financial management tool implemented in Python using the Tkinter library for the GUI and matplotlib for data visualization. It allows users to update their income and expenses, set monthly income goals, and view monthly and yearly financial data in a graphical format.
+This is a financial management tool implemented in Python using the Tkinter library for the GUI and matplotlib for data visualization. It allows users to update their income and expenses, set monthly income goals, and view monthly financial data in a graphical format.
 
 ## Usage
 Ensure Python and required packages (matplotlib) are installed on your system. To open the GUI, you can run the program by executing the main() function from the command line:
