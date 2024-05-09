@@ -124,6 +124,5 @@ python financial_management_tool.py
 
 
 ## Notes for changes:
-- Populate expenses and income dictionary with a default 0 to remove need for an exception class
 - May separate classes into standalone files for readability
 
